@@ -1,0 +1,78 @@
+﻿@{
+    ViewBag.Title = "Rent Equipment";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container" style="max-width: 650px; margin-top: 40px;">
+
+    <div class="panel panel-primary">
+
+        <div class="panel-heading text-center">
+            <h2 style="margin: 10px 0;">
+                🏀 Rent Equipment
+            </h2>
+        </div>
+
+        <div class="panel-body">
+
+            <div class="alert alert-info">
+                You are about to rent the following equipment.
+            </div>
+
+            <div class="form-group">
+                <label>Equipment</label>
+
+                <input type="text"
+                       class="form-control"
+                       value="@ViewBag.EquipmentName"
+                       readonly />
+            </div>
+
+            <div class="form-group">
+                <label>Rental Fee</label>
+
+                <input type="text"
+                       class="form-control"
+                       value="Rs. @ViewBag.RentalFee"
+                       readonly />
+            </div>
+
+            <div class="form-group">
+                <label>Rent Date</label>
+
+                <input type="text"
+                       class="form-control"
+                       value="@DateTime.Now.ToString("dd/MM/yyyy HH:mm")"
+                       readonly />
+            </div>
+
+            @using (Html.BeginForm("Create", "Rental", FormMethod.Post))
+            {
+                @Html.AntiForgeryToken()
+
+                @Html.Hidden("EquipmentID", (int)ViewBag.EquipmentID)
+
+                <div class="text-center" style="margin-top: 25px;">
+
+                    <button type="submit"
+                            class="btn btn-success btn-lg">
+                        Rent Equipment
+                    </button>
+
+                    @Html.Raw(" ")
+
+                    @Html.ActionLink(
+                        "Cancel",
+                        "Index",
+                        "Equipment",
+                        null,
+                        new { @class = "btn btn-default btn-lg" }
+                    )
+
+                </div>
+            }
+
+        </div>
+    </div>
+
+</div>

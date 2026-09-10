@@ -1,0 +1,116 @@
+﻿@model SportHub_CSharp.Models.INQUIRY
+
+@{
+    ViewBag.Title = "Inquiry Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container"
+     style="max-width:700px;margin-top:40px;margin-bottom:50px;">
+
+    <div class="card shadow">
+
+        <div class="card-header bg-info text-white text-center">
+
+            <h2 style="margin:10px 0;">
+                📩 Inquiry Details
+            </h2>
+
+        </div>
+
+        <div class="card-body">
+
+            <table class="table table-bordered">
+
+                <tr>
+                    <th style="width:180px;">
+                        Inquiry ID
+                    </th>
+
+                    <td>
+                        @Model.InquiryID
+                    </td>
+                </tr>
+
+                <tr>
+                    <th>
+                        Guest Name
+                    </th>
+
+                    <td>
+                        @Model.GuestName
+                    </td>
+                </tr>
+
+                <tr>
+                    <th>
+                        Email
+                    </th>
+
+                    <td>
+                        @Model.GuestEmail
+                    </td>
+                </tr>
+
+                <tr>
+                    <th>
+                        Message
+                    </th>
+
+                    <td style="white-space:pre-wrap;">
+                        @Model.Message
+                    </td>
+                </tr>
+
+                <tr>
+                    <th>
+                        Sent Date
+                    </th>
+
+                    <td>
+                        @Model.SentDate.ToString("dd/MM/yyyy HH:mm")
+                    </td>
+                </tr>
+
+            </table>
+
+            <div class="text-center">
+
+                <a href="@Url.Action(
+                    "Edit",
+                    "Inquiry",
+                    new { id = Model.InquiryID })"
+                   class="btn btn-warning">
+
+                    ✏️ Edit
+
+                </a>
+
+                <a href="@Url.Action(
+                    "Delete",
+                    "Inquiry",
+                    new { id = Model.InquiryID })"
+                   class="btn btn-danger"
+                   style="margin-left:5px;">
+
+                    🗑️ Delete
+
+                </a>
+
+                <a href="@Url.Action(
+                    "Index",
+                    "Inquiry")"
+                   class="btn btn-secondary"
+                   style="margin-left:5px;">
+
+                    Back
+
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>

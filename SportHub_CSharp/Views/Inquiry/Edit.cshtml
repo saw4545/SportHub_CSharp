@@ -1,0 +1,148 @@
+﻿@model SportHub_CSharp.Models.INQUIRY
+
+@{
+    ViewBag.Title = "Edit Inquiry";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container"
+     style="max-width:700px;margin-top:40px;margin-bottom:50px;">
+
+    <div class="card shadow">
+
+        <div class="card-header bg-warning text-dark text-center">
+
+            <h2 style="margin:10px 0;">
+                ✏️ Edit Inquiry
+            </h2>
+
+        </div>
+
+        <div class="card-body">
+
+            @Html.ValidationSummary(
+                true,
+                "",
+                new { @class = "alert alert-danger" }
+            )
+
+            @using (Html.BeginForm(
+                "Edit",
+                "Inquiry",
+                FormMethod.Post))
+            {
+                @Html.AntiForgeryToken()
+
+                @Html.HiddenFor(model => model.InquiryID)
+
+                @Html.HiddenFor(model => model.SentDate)
+
+
+                <div class="form-group">
+
+                    <label class="font-weight-bold">
+                        Guest Name
+                    </label>
+
+                    @Html.TextBoxFor(
+                        model => model.GuestName,
+                        new
+                        {
+                            @class = "form-control",
+                            required = "required"
+                        }
+                    )
+
+                    @Html.ValidationMessageFor(
+                        model => model.GuestName,
+                        "",
+                        new { @class = "text-danger" }
+                    )
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label class="font-weight-bold">
+                        Email Address
+                    </label>
+
+                    @Html.TextBoxFor(
+                        model => model.GuestEmail,
+                        new
+                        {
+                            @class = "form-control",
+                            type = "email",
+                            required = "required"
+                        }
+                    )
+
+                    @Html.ValidationMessageFor(
+                        model => model.GuestEmail,
+                        "",
+                        new { @class = "text-danger" }
+                    )
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label class="font-weight-bold">
+                        Message
+                    </label>
+
+                    @Html.TextAreaFor(
+                        model => model.Message,
+                        new
+                        {
+                            @class = "form-control",
+                            rows = "6",
+                            required = "required"
+                        }
+                    )
+
+                    @Html.ValidationMessageFor(
+                        model => model.Message,
+                        "",
+                        new { @class = "text-danger" }
+                    )
+
+                </div>
+
+                <hr />
+
+                <div class="text-center">
+
+                    <button type="submit"
+                            class="btn btn-warning btn-lg">
+
+                        💾 Save Changes
+
+                    </button>
+
+                    <a href="@Url.Action(
+                        "Index",
+                        "Inquiry")"
+                       class="btn btn-secondary btn-lg"
+                       style="margin-left:8px;">
+
+                        Cancel
+
+                    </a>
+
+                </div>
+            }
+
+        </div>
+
+    </div>
+
+</div>
+
+@section Scripts {
+
+    @Scripts.Render("~/bundles/jqueryval")
+
+}

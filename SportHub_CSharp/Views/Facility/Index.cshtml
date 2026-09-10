@@ -1,0 +1,306 @@
+﻿@model IEnumerable<SportHub_CSharp.Models.FACILITY>
+
+@{
+    ViewBag.Title = "Sports Facilities";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container" style="margin-top:30px; margin-bottom:50px;">
+
+    <!-- PAGE HEADER -->
+    <div style="
+        background:#0d6efd;
+        color:white;
+        padding:20px;
+        border-radius:6px;
+        margin-bottom:20px;">
+
+        <h2 style="margin:0;">
+            🏟️ Sports Facilities
+        </h2>
+
+        <p style="margin:8px 0 0 0;">
+            Browse available sports facilities and select
+            <strong>Book Now</strong> to make a reservation.
+        </p>
+
+    </div>
+
+
+    <!-- SUCCESS MESSAGE -->
+    @if (TempData["SuccessMessage"] != null)
+    {
+        <div class="alert alert-success">
+            @TempData["SuccessMessage"]
+        </div>
+    }
+
+
+    <!-- ERROR MESSAGE -->
+    @if (TempData["ErrorMessage"] != null)
+    {
+        <div class="alert alert-danger">
+            @TempData["ErrorMessage"]
+        </div>
+    }
+
+
+    <!-- INFORMATION -->
+    <div class="alert alert-info">
+
+        <strong>Available Facilities</strong>
+
+        <br />
+
+        Browse our sports facilities and select
+        <strong>Book Now</strong> to make a reservation.
+
+    </div>
+    <!-- FACILITY SEARCH -->
+    <div class="panel panel-default" style="margin-bottom:20px;">
+
+        <div class="panel-heading"
+             style="font-size:18px;font-weight:bold;">
+
+            🔍 Search Facilities
+
+        </div>
+
+        <div class="panel-body">
+
+            <form method="get"
+                  action="@Url.Action("Index", "Facility")">
+
+                <div class="row">
+
+                    <div class="col-md-9">
+
+                        <input type="text"
+                               name="search"
+                               value="@ViewBag.Search"
+                               class="form-control"
+                               placeholder="Search by facility name, type or location..." />
+
+                    </div>
+
+                    <div class="col-md-3">
+
+                        <button type="submit"
+                                class="btn btn-primary"
+                                style="width:100%;">
+
+                            🔍 Search
+
+                        </button>
+
+                    </div>
+
+                </div>
+
+                @if (!String.IsNullOrWhiteSpace(ViewBag.Search as String))
+                {
+                    <div style="margin-top:10px;">
+
+                        <span class="text-muted">
+                            Search results for:
+                            <strong>@ViewBag.Search</strong>
+                        </span>
+
+                        <a href="@Url.Action("Index", "Facility")"
+                           class="btn btn-sm btn-secondary"
+                           style="margin-left:10px;">
+
+                            Clear Search
+
+                        </a>
+
+                    </div>
+                }
+
+            </form>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- FACILITIES TABLE -->
+    <div class="panel panel-default">
+
+        <div class="panel-heading"
+             style="font-size:18px;font-weight:bold;">
+
+            Sports Facilities
+
+        </div>
+
+        <div class="panel-body">
+
+            @if (Model != null && Model.Any())
+            {
+                <div class="table-responsive">
+
+                    <table class="table table-bordered table-striped">
+
+                        <thead style="
+                            background:#212529;
+                            color:white;">
+
+                            <tr>
+
+                                <th>Facility ID</th>
+
+                                <th>Name</th>
+
+                                <th>Type</th>
+
+                                <th>Location</th>
+
+                                <th>Hourly Rate</th>
+
+                                <th>Status</th>
+
+                                <th style="width:160px;">
+                                    Action
+                                </th>
+
+                            </tr>
+
+                        </thead>
+
+
+                        <tbody>
+
+                            @foreach (var facility in Model)
+                            {
+                                <tr>
+
+                                    <!-- FACILITY ID -->
+                                    <td>
+                                        @facility.FacilityID
+                                    </td>
+
+
+                                    <!-- NAME -->
+                                    <td>
+                                        <strong>
+                                            @facility.Name
+                                        </strong>
+                                    </td>
+
+
+                                    <!-- TYPE -->
+                                    <td>
+                                        @facility.Type
+                                    </td>
+
+
+                                    <!-- LOCATION -->
+                                    <td>
+                                        @facility.Location
+                                    </td>
+
+
+                                    <!-- HOURLY RATE -->
+                                    <!-- IMPORTANT:
+                                         Do NOT use ToString("N2")
+                                         because HourlyRate is a string
+                                    -->
+                                    <td>
+                                        Rs. @facility.HourlyRate
+                                    </td>
+
+
+                                    <!-- STATUS -->
+                                    <td>
+
+                                        @if (facility.Status == "Available")
+                                        {
+                                            <span class="label label-success">
+                                                Available
+                                            </span>
+                                        }
+                                        else
+                                        {
+                                            <span class="label label-danger">
+                                                @facility.Status
+                                            </span>
+                                        }
+
+                                    </td>
+
+
+                                    <!-- ACTION -->
+                                    <td>
+
+                                        @if (facility.Status == "Available")
+                                        {
+                                            <a href="@Url.Action(
+                                                "Create",
+                                                "Booking",
+                                                new { id = facility.FacilityID })"
+                                               class="btn btn-primary btn-sm">
+
+                                                📅 Book Now
+
+                                            </a>
+                                        }
+                                        else
+                                        {
+                                            <span class="text-muted">
+                                                Not Available
+                                            </span>
+                                        }
+
+                                    </td>
+
+                                </tr>
+                            }
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+            }
+            else
+            {
+                <div class="alert alert-warning">
+
+                    <h4>No Facilities Available</h4>
+
+                    <p>
+                        There are currently no sports facilities
+                        available in the system.
+                    </p>
+
+                </div>
+            }
+
+        </div>
+
+    </div>
+
+
+    <!-- BOTTOM BUTTONS -->
+    <div style="margin-top:20px;">
+
+        <a href="@Url.Action("Index", "Home")"
+           class="btn btn-secondary">
+
+            🏠 Back to Home
+
+        </a>
+
+        <a href="@Url.Action("MyBookings", "Booking")"
+           class="btn btn-success"
+           style="margin-left:5px;">
+
+            📋 My Bookings
+
+        </a>
+
+    </div>
+
+</div>

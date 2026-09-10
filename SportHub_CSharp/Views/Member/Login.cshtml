@@ -1,0 +1,190 @@
+﻿@model SportHub_CSharp.Models.MEMBER
+
+@{
+    ViewBag.Title = "Member Login";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container mt-5 mb-5">
+
+    <div class="row justify-content-center">
+
+        <div class="col-md-5">
+
+            <div class="card shadow">
+
+                <!-- Header -->
+                <div class="card-header bg-primary text-white text-center">
+
+                    <h3 class="mb-0">
+                        🔐 Member Sign In
+                    </h3>
+
+                </div>
+
+
+                <div class="card-body p-4">
+
+                    <!-- Success Message -->
+                    @if (TempData["SuccessMessage"] != null)
+                    {
+                        <div class="alert alert-success text-center">
+
+                            @TempData["SuccessMessage"]
+
+                        </div>
+                    }
+
+
+                    <!-- Error Message -->
+                    @if (ViewBag.ErrorMessage != null)
+                    {
+                        <div class="alert alert-danger text-center">
+
+                            @ViewBag.ErrorMessage
+
+                        </div>
+                    }
+
+
+                    <!-- Login Form -->
+                    @using (Html.BeginForm(
+                        "Login",
+                        "Member",
+                        FormMethod.Post))
+                    {
+                        @Html.AntiForgeryToken()
+
+                        <!-- Return URL -->
+                        if (ViewBag.ReturnUrl != null)
+                        {
+                            <input type="hidden"
+                                   name="returnUrl"
+                                   value="@ViewBag.ReturnUrl" />
+                        }
+
+
+                        <!-- Email -->
+                        <div class="form-group mb-3">
+
+                            <label class="font-weight-bold">
+                                📧 Email Address
+                            </label>
+
+                            <input type="email"
+                                   name="Email"
+                                   class="form-control"
+                                   placeholder="Enter your email"
+                                   autocomplete="email"
+                                   required />
+
+                        </div>
+
+
+                        <!-- Password -->
+                        <div class="form-group mb-2">
+
+                            <label class="font-weight-bold">
+                                🔑 Password
+                            </label>
+
+                            <input type="password"
+                                   name="Password"
+                                   id="Password"
+                                   class="form-control"
+                                   placeholder="Enter your password"
+                                   autocomplete="current-password"
+                                   required />
+
+                        </div>
+
+
+                        <!-- Forgot Password -->
+                        <div class="text-right mb-4">
+
+                            <a href="@Url.Action(
+                                "ForgotPassword",
+                                "Member"
+                            )"
+                               class="text-primary">
+
+                                Forgot Password?
+
+                            </a>
+
+                        </div>
+
+
+                        <!-- Login Button -->
+                        <button type="submit"
+                                class="btn btn-primary btn-block btn-lg">
+
+                            🔐 Sign In
+
+                        </button>
+                    }
+
+
+                    <hr />
+
+
+                    <!-- Register -->
+                    <div class="text-center">
+
+                        <p class="mb-2">
+                            Don't have a SportHub account?
+                        </p>
+
+                        <a href="@Url.Action(
+                            "Register",
+                            "Member"
+                        )"
+                           class="btn btn-outline-primary">
+
+                            📝 Create Account
+
+                        </a>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<style>
+
+    .card {
+        border-radius: 12px;
+        border: none;
+    }
+
+    .card-header {
+        border-radius: 12px 12px 0 0 !important;
+        padding: 20px;
+    }
+
+    .form-control {
+        height: 45px;
+        border-radius: 6px;
+    }
+
+    .btn {
+        border-radius: 6px;
+    }
+
+    .text-right a {
+        text-decoration: none;
+        font-size: 14px;
+    }
+
+        .text-right a:hover {
+            text-decoration: underline;
+        }
+</style>

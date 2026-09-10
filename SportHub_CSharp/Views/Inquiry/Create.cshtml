@@ -1,0 +1,158 @@
+﻿@model SportHub_CSharp.Models.INQUIRY
+
+@{
+    ViewBag.Title = "Send Inquiry";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container"
+     style="max-width:700px;margin-top:40px;margin-bottom:50px;">
+
+    <div class="card shadow">
+
+        <div class="card-header bg-primary text-white text-center">
+
+            <h2 style="margin:10px 0;">
+                💬 Send an Inquiry
+            </h2>
+
+        </div>
+
+        <div class="card-body">
+
+            @if (TempData["SuccessMessage"] != null)
+            {
+                <div class="alert alert-success text-center">
+
+                    @TempData["SuccessMessage"]
+
+                </div>
+            }
+
+            @Html.ValidationSummary(
+                true,
+                "",
+                new { @class = "alert alert-danger" }
+            )
+
+            <p class="text-center text-muted">
+
+                Have a question about SportHub?
+                Send us a message and our team will contact you.
+
+            </p>
+
+            @using (Html.BeginForm(
+                "Create",
+                "Inquiry",
+                FormMethod.Post))
+            {
+                @Html.AntiForgeryToken()
+
+                <div class="form-group">
+
+                    <label class="font-weight-bold">
+                        Your Name
+                    </label>
+
+                    @Html.TextBoxFor(
+                        model => model.GuestName,
+                        new
+                        {
+                            @class = "form-control",
+                            placeholder = "Enter your name",
+                            required = "required"
+                        }
+                    )
+
+                    @Html.ValidationMessageFor(
+                        model => model.GuestName,
+                        "",
+                        new { @class = "text-danger" }
+                    )
+
+                </div>
+
+                <div class="form-group">
+
+                    <label class="font-weight-bold">
+                        Email Address
+                    </label>
+
+                    @Html.TextBoxFor(
+                        model => model.GuestEmail,
+                        new
+                        {
+                            @class = "form-control",
+                            type = "email",
+                            placeholder = "Enter your email",
+                            required = "required"
+                        }
+                    )
+
+                    @Html.ValidationMessageFor(
+                        model => model.GuestEmail,
+                        "",
+                        new { @class = "text-danger" }
+                    )
+
+                </div>
+
+                <div class="form-group">
+
+                    <label class="font-weight-bold">
+                        Your Message
+                    </label>
+
+                    @Html.TextAreaFor(
+                        model => model.Message,
+                        new
+                        {
+                            @class = "form-control",
+                            rows = "6",
+                            placeholder = "Type your inquiry...",
+                            required = "required"
+                        }
+                    )
+
+                    @Html.ValidationMessageFor(
+                        model => model.Message,
+                        "",
+                        new { @class = "text-danger" }
+                    )
+
+                </div>
+
+                <hr />
+
+                <div class="text-center">
+
+                    <button type="submit"
+                            class="btn btn-primary btn-lg">
+
+                        📩 Send Inquiry
+
+                    </button>
+
+                    <a href="@Url.Action("Index", "Home")"
+                       class="btn btn-secondary btn-lg"
+                       style="margin-left:8px;">
+
+                        Back to Home
+
+                    </a>
+
+                </div>
+            }
+
+        </div>
+
+    </div>
+
+</div>
+
+@section Scripts {
+
+    @Scripts.Render("~/bundles/jqueryval")
+
+}

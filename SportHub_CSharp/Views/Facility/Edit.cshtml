@@ -1,0 +1,240 @@
+﻿@model SportHub_CSharp.Models.FACILITY
+
+@{
+    ViewBag.Title = "Edit Facility";
+}
+
+<h2>Edit Facility</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    @Html.HiddenFor(model => model.FacilityID)
+
+    <div class="form-horizontal">
+
+        <h4>Facility Information</h4>
+
+        <hr />
+
+        @Html.ValidationSummary(
+            true,
+            "",
+            new { @class = "text-danger" }
+        )
+
+
+        <!-- NAME -->
+
+        <div class="form-group">
+
+            @Html.LabelFor(
+                model => model.Name,
+                htmlAttributes: new
+                {
+                    @class = "control-label col-md-2"
+                }
+            )
+
+            <div class="col-md-10">
+
+                @Html.EditorFor(
+                    model => model.Name,
+                    new
+                    {
+                        htmlAttributes = new
+                        {
+                            @class = "form-control"
+                        }
+                    }
+                )
+
+                @Html.ValidationMessageFor(
+                    model => model.Name,
+                    "",
+                    new { @class = "text-danger" }
+                )
+
+            </div>
+
+        </div>
+
+
+        <!-- TYPE -->
+
+        <div class="form-group">
+
+            @Html.LabelFor(
+                model => model.Type,
+                htmlAttributes: new
+                {
+                    @class = "control-label col-md-2"
+                }
+            )
+
+            <div class="col-md-10">
+
+                @Html.EditorFor(
+                    model => model.Type,
+                    new
+                    {
+                        htmlAttributes = new
+                        {
+                            @class = "form-control"
+                        }
+                    }
+                )
+
+                @Html.ValidationMessageFor(
+                    model => model.Type,
+                    "",
+                    new { @class = "text-danger" }
+                )
+
+            </div>
+
+        </div>
+
+
+        <!-- LOCATION -->
+
+        <div class="form-group">
+
+            @Html.LabelFor(
+                model => model.Location,
+                htmlAttributes: new
+                {
+                    @class = "control-label col-md-2"
+                }
+            )
+
+            <div class="col-md-10">
+
+                @Html.EditorFor(
+                    model => model.Location,
+                    new
+                    {
+                        htmlAttributes = new
+                        {
+                            @class = "form-control"
+                        }
+                    }
+                )
+
+                @Html.ValidationMessageFor(
+                    model => model.Location,
+                    "",
+                    new { @class = "text-danger" }
+                )
+
+            </div>
+
+        </div>
+
+
+        <!-- HOURLY RATE -->
+
+        <div class="form-group">
+
+            @Html.LabelFor(
+                model => model.HourlyRate,
+                htmlAttributes: new
+                {
+                    @class = "control-label col-md-2"
+                }
+            )
+
+            <div class="col-md-10">
+
+                @Html.EditorFor(
+                    model => model.HourlyRate,
+                    new
+                    {
+                        htmlAttributes = new
+                        {
+                            @class = "form-control"
+                        }
+                    }
+                )
+
+                @Html.ValidationMessageFor(
+                    model => model.HourlyRate,
+                    "",
+                    new { @class = "text-danger" }
+                )
+
+            </div>
+
+        </div>
+
+
+        <!-- STATUS -->
+
+        <div class="form-group">
+
+            @Html.LabelFor(
+                model => model.Status,
+                htmlAttributes: new
+                {
+                    @class = "control-label col-md-2"
+                }
+            )
+
+            <div class="col-md-10">
+
+                @Html.DropDownListFor(
+                    model => model.Status,
+                    new SelectList(
+                        new[]
+                        {
+                            "Available",
+                            "Maintenance",
+                            "Unavailable"
+                        },
+                        Model.Status
+                    ),
+                    "Select Status",
+                    new { @class = "form-control" }
+                )
+
+                @Html.ValidationMessageFor(
+                    model => model.Status,
+                    "",
+                    new { @class = "text-danger" }
+                )
+
+            </div>
+
+        </div>
+
+
+        <!-- BUTTONS -->
+
+        <div class="form-group">
+
+            <div class="col-md-offset-2 col-md-10">
+
+                <input type="submit"
+                       value="Save Changes"
+                       class="btn btn-primary" />
+
+                @Html.ActionLink(
+                    "Cancel",
+                    "Index",
+                    "Facility",
+                    null,
+                    new { @class = "btn btn-default" }
+                )
+
+            </div>
+
+        </div>
+
+    </div>
+}
+
+@section Scripts
+{
+    @Scripts.Render("~/bundles/jqueryval")
+}

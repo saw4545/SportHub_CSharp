@@ -1,0 +1,186 @@
+﻿@model SportHub_CSharp.Models.BOOKING
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container" style="max-width: 700px; margin-top: 40px; margin-bottom: 50px;">
+
+    <div class="card shadow">
+
+        <div class="card-header bg-warning text-dark text-center">
+            <h2 style="margin: 10px 0;">
+                ✏️ Edit Booking
+            </h2>
+        </div>
+
+        <div class="card-body">
+
+            @using (Html.BeginForm("Edit", "Booking", FormMethod.Post))
+            {
+                @Html.AntiForgeryToken()
+
+                @Html.HiddenFor(model => model.BookingID)
+
+
+                @Html.ValidationSummary(
+                    true,
+                    "",
+                    new { @class = "alert alert-danger" }
+                )
+
+
+                <div class="form-group">
+                    <label class="font-weight-bold">
+                        Facility
+                    </label>
+
+                    @Html.DropDownList(
+                        "FacilityID",
+                        null,
+                        "-- Select Facility --",
+                        new
+                        {
+                            @class = "form-control"
+                        }
+                    )
+
+                    @Html.ValidationMessage(
+                        "FacilityID",
+                        "",
+                        new { @class = "text-danger" }
+                    )
+                </div>
+
+
+                <div class="form-group">
+                    <label class="font-weight-bold">
+                        Booking Date
+                    </label>
+
+                    <input type="date"
+                           name="BookingDate"
+                           class="form-control"
+                           value="@Model.BookingDate.ToString("yyyy-MM-dd")"
+                           min="@DateTime.Today.ToString("yyyy-MM-dd")"
+                           required />
+
+                    @Html.ValidationMessage(
+                        "BookingDate",
+                        "",
+                        new { @class = "text-danger" }
+                    )
+                </div>
+
+
+                <div class="form-group">
+                    <label class="font-weight-bold">
+                        Time Slot
+                    </label>
+
+                    <select name="TimeSlot"
+                            class="form-control"
+                            required>
+
+                        <option value="">
+                            -- Select Time Slot --
+                        </option>
+
+                        <option value="08:00-09:00"
+                                @(Model.TimeSlot == "08:00-09:00" ? "selected" : "")>
+                            08:00 - 09:00
+                        </option>
+
+                        <option value="09:00-10:00"
+                                @(Model.TimeSlot == "09:00-10:00" ? "selected" : "")>
+                            09:00 - 10:00
+                        </option>
+
+                        <option value="10:00-11:00"
+                                @(Model.TimeSlot == "10:00-11:00" ? "selected" : "")>
+                            10:00 - 11:00
+                        </option>
+
+                        <option value="11:00-12:00"
+                                @(Model.TimeSlot == "11:00-12:00" ? "selected" : "")>
+                            11:00 - 12:00
+                        </option>
+
+                        <option value="12:00-13:00"
+                                @(Model.TimeSlot == "12:00-13:00" ? "selected" : "")>
+                            12:00 - 13:00
+                        </option>
+
+                        <option value="13:00-14:00"
+                                @(Model.TimeSlot == "13:00-14:00" ? "selected" : "")>
+                            13:00 - 14:00
+                        </option>
+
+                        <option value="14:00-15:00"
+                                @(Model.TimeSlot == "14:00-15:00" ? "selected" : "")>
+                            14:00 - 15:00
+                        </option>
+
+                        <option value="15:00-16:00"
+                                @(Model.TimeSlot == "15:00-16:00" ? "selected" : "")>
+                            15:00 - 16:00
+                        </option>
+
+                        <option value="16:00-17:00"
+                                @(Model.TimeSlot == "16:00-17:00" ? "selected" : "")>
+                            16:00 - 17:00
+                        </option>
+
+                        <option value="17:00-18:00"
+                                @(Model.TimeSlot == "17:00-18:00" ? "selected" : "")>
+                            17:00 - 18:00
+                        </option>
+
+                        <option value="18:00-19:00"
+                                @(Model.TimeSlot == "18:00-19:00" ? "selected" : "")>
+                            18:00 - 19:00
+                        </option>
+
+                        <option value="19:00-20:00"
+                                @(Model.TimeSlot == "19:00-20:00" ? "selected" : "")>
+                            19:00 - 20:00
+                        </option>
+
+                    </select>
+
+                    @Html.ValidationMessage(
+                        "TimeSlot",
+                        "",
+                        new { @class = "text-danger" }
+                    )
+                </div>
+
+
+                <hr />
+
+                <div class="text-center">
+
+                    <button type="submit"
+                            class="btn btn-warning btn-lg">
+
+                        Save Changes
+
+                    </button>
+
+                    <a href="@Url.Action("MyBookings", "Booking")"
+                       class="btn btn-secondary btn-lg ml-2">
+
+                        Back
+
+                    </a>
+
+                </div>
+            }
+
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

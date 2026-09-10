@@ -1,0 +1,142 @@
+﻿@model SportHub_CSharp.Models.INQUIRY
+
+@{
+    ViewBag.Title = "Delete Inquiry";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container"
+     style="max-width:700px;margin-top:50px;margin-bottom:50px;">
+
+    <div class="card shadow">
+
+        <div class="card-header bg-danger text-white text-center">
+
+            <h2 style="margin:10px 0;">
+                ⚠️ Delete Inquiry
+            </h2>
+
+        </div>
+
+        <div class="card-body">
+
+            <div class="alert alert-warning text-center">
+
+                <strong>
+                    Are you sure you want to delete this inquiry?
+                </strong>
+
+                <br />
+
+                This action cannot be undone.
+
+            </div>
+
+
+            <table class="table table-bordered">
+
+                <tr>
+
+                    <th style="width:180px;">
+                        Inquiry ID
+                    </th>
+
+                    <td>
+                        @Model.InquiryID
+                    </td>
+
+                </tr>
+
+
+                <tr>
+
+                    <th>
+                        Guest Name
+                    </th>
+
+                    <td>
+                        @Model.GuestName
+                    </td>
+
+                </tr>
+
+
+                <tr>
+
+                    <th>
+                        Email
+                    </th>
+
+                    <td>
+                        @Model.GuestEmail
+                    </td>
+
+                </tr>
+
+
+                <tr>
+
+                    <th>
+                        Message
+                    </th>
+
+                    <td style="white-space:pre-wrap;">
+                        @Model.Message
+                    </td>
+
+                </tr>
+
+
+                <tr>
+
+                    <th>
+                        Sent Date
+                    </th>
+
+                    <td>
+                        @Model.SentDate.ToString("dd/MM/yyyy HH:mm")
+                    </td>
+
+                </tr>
+
+            </table>
+
+
+            @using (Html.BeginForm(
+                "DeleteConfirmed",
+                "Inquiry",
+                FormMethod.Post))
+            {
+                @Html.AntiForgeryToken()
+
+                @Html.HiddenFor(
+                    model => model.InquiryID
+                )
+
+                <div class="text-center">
+
+                    <button type="submit"
+                            class="btn btn-danger btn-lg">
+
+                        🗑️ Yes, Delete Inquiry
+
+                    </button>
+
+                    <a href="@Url.Action(
+                        "Index",
+                        "Inquiry")"
+                       class="btn btn-secondary btn-lg"
+                       style="margin-left:8px;">
+
+                        No, Go Back
+
+                    </a>
+
+                </div>
+            }
+
+        </div>
+
+    </div>
+
+</div>

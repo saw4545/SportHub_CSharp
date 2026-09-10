@@ -1,0 +1,91 @@
+﻿
+@model SportHub_CSharp.Models.FACILITY
+
+@{
+    ViewBag.Title = "Delete Facility";
+}
+
+<h2>Delete Facility</h2>
+
+<h3>Are you sure you want to delete this facility?</h3>
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <strong>Facility Details</strong>
+    </div>
+
+    <div class="panel-body">
+
+        <dl class="dl-horizontal">
+
+            <dt>
+                Facility ID
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.FacilityID)
+            </dd>
+
+            <dt>
+                Name
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Name)
+            </dd>
+
+            <dt>
+                Type
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Type)
+            </dd>
+
+            <dt>
+                Location
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Location)
+            </dd>
+
+            <dt>
+                Hourly Rate
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.HourlyRate)
+            </dd>
+
+            <dt>
+                Status
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Status)
+            </dd>
+
+        </dl>
+
+    </div>
+</div>
+
+@using (Html.BeginForm("Delete", "Facility", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+
+    @Html.HiddenFor(model => model.FacilityID)
+
+    <button type="submit" class="btn btn-danger">
+        Delete Facility
+    </button>
+
+    @Html.ActionLink(
+        "Cancel",
+        "Index",
+        "Facility",
+        null,
+        new { @class = "btn btn-default" }
+    )
+}

@@ -1,0 +1,250 @@
+﻿@model SportHub_CSharp.Models.MEMBER
+
+@{
+    ViewBag.Title = "Register";
+}
+
+<div class="container mt-5 mb-5">
+
+    <div class="row justify-content-center">
+
+        <div class="col-md-8">
+
+            <div class="card shadow">
+
+                <div class="card-header bg-primary text-white text-center">
+                    <h3 class="mb-0">Create SportHub Account</h3>
+                </div>
+
+                <div class="card-body">
+
+                    <p class="text-center text-muted mb-4">
+                        Register as a SportHub member to book facilities and rent sports equipment.
+                    </p>
+
+                    @using (Html.BeginForm("Register", "Member", FormMethod.Post))
+                    {
+                        @Html.AntiForgeryToken()
+
+                        @Html.ValidationSummary(
+                            true,
+                            "",
+                            new { @class = "alert alert-danger" }
+                        )
+
+                        <!-- Name -->
+                        <div class="form-group mb-3">
+
+                            @Html.LabelFor(
+                                model => model.Name,
+                                new { @class = "form-label fw-bold" }
+                            )
+
+                            @Html.TextBoxFor(
+                                model => model.Name,
+                                new
+                                {
+                                    @class = "form-control",
+                                    placeholder = "Enter your full name"
+                                }
+                            )
+
+                            @Html.ValidationMessageFor(
+                                model => model.Name,
+                                "",
+                                new { @class = "text-danger" }
+                            )
+
+                        </div>
+
+
+                        <!-- Email -->
+                        <div class="form-group mb-3">
+
+                            @Html.LabelFor(
+                                model => model.Email,
+                                new { @class = "form-label fw-bold" }
+                            )
+
+                            @Html.TextBoxFor(
+                                model => model.Email,
+                                new
+                                {
+                                    @class = "form-control",
+                                    type = "email",
+                                    placeholder = "Enter your email address"
+                                }
+                            )
+
+                            @Html.ValidationMessageFor(
+                                model => model.Email,
+                                "",
+                                new { @class = "text-danger" }
+                            )
+
+                        </div>
+
+
+                        <!-- Phone -->
+                        <div class="form-group mb-3">
+
+                            @Html.LabelFor(
+                                model => model.Phone,
+                                new { @class = "form-label fw-bold" }
+                            )
+
+                            @Html.TextBoxFor(
+                                model => model.Phone,
+                                new
+                                {
+                                    @class = "form-control",
+                                    placeholder = "Enter your phone number"
+                                }
+                            )
+
+                            @Html.ValidationMessageFor(
+                                model => model.Phone,
+                                "",
+                                new { @class = "text-danger" }
+                            )
+
+                        </div>
+
+
+                        <!-- Address -->
+                        <div class="form-group mb-3">
+
+                            @Html.LabelFor(
+                                model => model.Address,
+                                new { @class = "form-label fw-bold" }
+                            )
+
+                            @Html.TextAreaFor(
+                                model => model.Address,
+                                new
+                                {
+                                    @class = "form-control",
+                                    rows = "3",
+                                    placeholder = "Enter your address"
+                                }
+                            )
+
+                            @Html.ValidationMessageFor(
+                                model => model.Address,
+                                "",
+                                new { @class = "text-danger" }
+                            )
+
+                        </div>
+
+
+                        <!-- Password -->
+                        <div class="form-group mb-3">
+
+                            @Html.LabelFor(
+                                model => model.Password,
+                                new { @class = "form-label fw-bold" }
+                            )
+
+                            @Html.PasswordFor(
+                                model => model.Password,
+                                new
+                                {
+                                    @class = "form-control",
+                                    placeholder = "Create a password"
+                                }
+                            )
+
+                            @Html.ValidationMessageFor(
+                                model => model.Password,
+                                "",
+                                new { @class = "text-danger" }
+                            )
+
+                        </div>
+
+
+                        <!-- Preferred Sports -->
+                        <div class="form-group mb-4">
+
+                            <label class="form-label fw-bold">
+                                Preferred Sports
+                            </label>
+
+                            <p class="text-muted small">
+                                Select the sports you are interested in.
+                            </p>
+
+                            @if (ViewBag.Sports != null)
+                            {
+                                foreach (var sport in ViewBag.Sports)
+                                {
+                                    <div class="form-check mb-2">
+
+                                        <input type="checkbox"
+                                               class="form-check-input"
+                                               name="selectedSports"
+                                               value="@sport.SportID"
+                                               id="sport_@sport.SportID" />
+
+                                        <label class="form-check-label"
+                                               for="sport_@sport.SportID">
+
+                                            @sport.SportName
+
+                                        </label>
+
+                                    </div>
+                                }
+                            }
+
+                        </div>
+
+
+                        <!-- Register Button -->
+                        <div class="d-grid">
+
+                            <button type="submit"
+                                    class="btn btn-primary btn-lg">
+
+                                Register
+
+                            </button>
+
+                        </div>
+
+                    }
+
+
+                    <!-- Login Link -->
+                    <div class="text-center mt-4">
+
+                        <span class="text-muted">
+                            Already have an account?
+                        </span>
+
+                        @Html.ActionLink(
+                            "Login here",
+                            "Login",
+                            "Member",
+                            null,
+                            new { @class = "fw-bold" }
+                        )
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+@section Scripts {
+
+    @Scripts.Render("~/bundles/jqueryval")
+
+}

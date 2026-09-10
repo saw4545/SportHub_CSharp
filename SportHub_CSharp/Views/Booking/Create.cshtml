@@ -1,0 +1,257 @@
+﻿@{
+    ViewBag.Title = "Book Facility";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container"
+     style="max-width:800px;margin-top:30px;margin-bottom:50px;">
+
+    <!-- HEADER -->
+
+    <div style="
+        background:#0d6efd;
+        color:white;
+        padding:20px;
+        border-radius:8px;
+        margin-bottom:25px;">
+
+        <h2 style="margin:0;">
+            📅 Book Sports Facility
+        </h2>
+
+        <p style="margin:8px 0 0 0;">
+            Select your preferred date and time.
+        </p>
+
+    </div>
+
+
+    <!-- ERROR MESSAGE -->
+
+    @if (TempData["ErrorMessage"] != null)
+    {
+        <div class="alert alert-danger">
+            @TempData["ErrorMessage"]
+        </div>
+    }
+
+
+    <!-- FACILITY DETAILS -->
+
+    <div class="panel panel-primary">
+
+        <div class="panel-heading">
+
+            <h4 style="margin:0;">
+                🏟️ Facility Details
+            </h4>
+
+        </div>
+
+
+        <div class="panel-body">
+
+            <table class="table table-bordered">
+
+                <tr>
+
+                    <th style="width:200px;">
+                        Facility
+                    </th>
+
+                    <td>
+                        <strong>
+                            @ViewBag.FacilityName
+                        </strong>
+                    </td>
+
+                </tr>
+
+
+                <tr>
+
+                    <th>
+                        Type
+                    </th>
+
+                    <td>
+                        @ViewBag.FacilityType
+                    </td>
+
+                </tr>
+
+
+                <tr>
+
+                    <th>
+                        Location
+                    </th>
+
+                    <td>
+                        @ViewBag.Location
+                    </td>
+
+                </tr>
+
+
+                <tr>
+
+                    <th>
+                        Hourly Rate
+                    </th>
+
+                    <td>
+                        Rs. @ViewBag.HourlyRate
+                    </td>
+
+                </tr>
+
+            </table>
+
+
+            <hr />
+
+
+            <!-- BOOKING FORM -->
+
+            @using (Html.BeginForm(
+                "Create",
+                "Booking",
+                FormMethod.Post))
+            {
+                @Html.AntiForgeryToken()
+
+
+                <!-- FACILITY ID -->
+
+                <input type="hidden"
+                       name="FacilityID"
+                       value="@ViewBag.FacilityID" />
+
+
+                <!-- DATE -->
+
+                <div class="form-group">
+
+                    <label>
+
+                        <strong>
+                            📅 Booking Date
+                        </strong>
+
+                    </label>
+
+                    <input type="date"
+                           name="BookingDate"
+                           class="form-control"
+                           min="@DateTime.Today.ToString("yyyy-MM-dd")"
+                           required />
+
+                </div>
+
+
+                <br />
+
+
+                <!-- TIME SLOT -->
+
+                <div class="form-group">
+
+                    <label>
+
+                        <strong>
+                            ⏰ Time Slot
+                        </strong>
+
+                    </label>
+
+
+                    <select name="TimeSlot"
+                            class="form-control"
+                            required>
+
+                        <option value="">
+                            -- Select Time Slot --
+                        </option>
+
+                        <option value="08:00 AM - 09:00 AM">
+                            08:00 AM - 09:00 AM
+                        </option>
+
+                        <option value="09:00 AM - 10:00 AM">
+                            09:00 AM - 10:00 AM
+                        </option>
+
+                        <option value="10:00 AM - 11:00 AM">
+                            10:00 AM - 11:00 AM
+                        </option>
+
+                        <option value="11:00 AM - 12:00 PM">
+                            11:00 AM - 12:00 PM
+                        </option>
+
+                        <option value="12:00 PM - 01:00 PM">
+                            12:00 PM - 01:00 PM
+                        </option>
+
+                        <option value="01:00 PM - 02:00 PM">
+                            01:00 PM - 02:00 PM
+                        </option>
+
+                        <option value="02:00 PM - 03:00 PM">
+                            02:00 PM - 03:00 PM
+                        </option>
+
+                        <option value="03:00 PM - 04:00 PM">
+                            03:00 PM - 04:00 PM
+                        </option>
+
+                        <option value="04:00 PM - 05:00 PM">
+                            04:00 PM - 05:00 PM
+                        </option>
+
+                        <option value="05:00 PM - 06:00 PM">
+                            05:00 PM - 06:00 PM
+                        </option>
+
+                        <option value="06:00 PM - 07:00 PM">
+                            06:00 PM - 07:00 PM
+                        </option>
+
+                        <option value="07:00 PM - 08:00 PM">
+                            07:00 PM - 08:00 PM
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <br />
+
+
+                <!-- BUTTONS -->
+
+                <button type="submit"
+                        class="btn btn-success btn-lg">
+
+                    ✅ Confirm Booking
+
+                </button>
+
+
+                <a href="@Url.Action("Index", "Facility")"
+                   class="btn btn-secondary btn-lg"
+                   style="margin-left:5px;">
+
+                    Cancel
+
+                </a>
+
+            }
+
+        </div>
+
+    </div>
+
+</div>

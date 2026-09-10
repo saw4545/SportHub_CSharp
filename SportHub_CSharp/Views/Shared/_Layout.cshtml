@@ -1,0 +1,330 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>@ViewBag.Title - SportHub</title>
+
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap"
+          rel="stylesheet">
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background: #f5f7fb;
+            color: #222;
+        }
+
+        /* ================================
+           NAVIGATION
+        ================================= */
+
+        .sporthub-navbar {
+            background: #071a35 !important;
+            padding: 12px 0;
+            box-shadow: 0 3px 15px rgba(0,0,0,0.15);
+        }
+
+        .sporthub-brand {
+            font-size: 25px;
+            font-weight: 800;
+            color: white !important;
+            letter-spacing: 0.5px;
+        }
+
+            .sporthub-brand span {
+                color: #2f80ff;
+            }
+
+        .sporthub-navbar .nav-link {
+            color: #e9eef7 !important;
+            font-weight: 500;
+            margin-left: 8px;
+            margin-right: 8px;
+            transition: 0.3s;
+        }
+
+            .sporthub-navbar .nav-link:hover {
+                color: #4da3ff !important;
+            }
+
+        .navbar-toggler {
+            border-color: rgba(255,255,255,0.4);
+        }
+
+        /* ================================
+           BODY
+        ================================= */
+
+        .body-content {
+            padding-left: 0;
+            padding-right: 0;
+            max-width: 100%;
+        }
+
+        /* ================================
+           FOOTER
+        ================================= */
+
+        .sporthub-footer {
+            background: #071a35;
+            color: white;
+            padding: 35px 20px;
+            margin-top: 50px;
+        }
+
+            .sporthub-footer h4 {
+                font-weight: 700;
+            }
+
+            .sporthub-footer p {
+                color: #c8d2e3;
+                margin-bottom: 5px;
+            }
+
+        .footer-bottom {
+            margin-top: 25px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255,255,255,0.15);
+            text-align: center;
+            color: #aebbd0;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- ================================
+         NAVIGATION
+    ================================= -->
+
+    <nav class="navbar navbar-expand-lg navbar-dark sporthub-navbar">
+
+        <div class="container">
+
+            <a class="navbar-brand sporthub-brand"
+               href="@Url.Action("Index", "Home")">
+
+                🏆 Sport<span>Hub</span>
+
+            </a>
+
+            <button class="navbar-toggler"
+                    type="button"
+                    data-toggle="collapse"
+                    data-target="#sportHubNavigation">
+
+                <span class="navbar-toggler-icon"></span>
+
+            </button>
+
+
+            <div class="collapse navbar-collapse"
+                 id="sportHubNavigation">
+
+                <ul class="navbar-nav mr-auto">
+
+                    <li class="nav-item">
+                        <a class="nav-link"
+                           href="@Url.Action("Index", "Home")">
+                            🏠 Home
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link"
+                           href="@Url.Action("Index", "Facility")">
+                            🏟️ Facilities
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link"
+                           href="@Url.Action("Index", "Equipment")">
+                            🏀 Equipment
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link"
+                           href="@Url.Action("Index", "Booking")">
+                            📅 Bookings
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link"
+                           href="@Url.Action("Index", "Rental")">
+                            🎾 Rentals
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link"
+                           href="@Url.Action("Index", "Review")">
+                            ⭐ Reviews
+                        </a>
+                    </li>
+
+                    <!-- INQUIRY -->
+                    <li class="nav-item">
+                        <a class="nav-link"
+                           href="@Url.Action("Create", "Inquiry")">
+                            📩 Inquiry
+                        </a>
+                    </li>
+
+                </ul>
+
+
+                <!-- RIGHT SIDE -->
+
+                <ul class="navbar-nav">
+
+                    @if (Session["MemberID"] != null)
+                    {
+                        <li class="nav-item">
+
+                            <a class="nav-link"
+                               href="@Url.Action("Logout", "Member")">
+
+                                👤
+                                @Session["MemberName"]
+                                | Sign Out
+
+                            </a>
+
+                        </li>
+                    }
+                    else
+                    {
+                        <li class="nav-item">
+
+                            <a class="nav-link"
+                               href="@Url.Action("Login", "Member")">
+
+                                🔐 Sign In
+
+                            </a>
+
+                        </li>
+
+                        <li class="nav-item">
+
+                            <a class="nav-link"
+                               href="@Url.Action("Register", "Member")">
+
+                                📝 Register
+
+                            </a>
+
+                        </li>
+                    }
+
+                </ul>
+
+            </div>
+
+        </div>
+
+    </nav>
+
+
+    <!-- ================================
+         PAGE CONTENT
+    ================================= -->
+
+    @RenderBody()
+
+
+    <!-- ================================
+         FOOTER
+    ================================= -->
+
+    <footer class="sporthub-footer">
+
+        <div class="container">
+
+            <div class="row">
+
+                <div class="col-md-4">
+
+                    <h4>🏆 SportHub</h4>
+
+                    <p>
+                        Your complete sports facility,
+                        equipment rental and booking platform.
+                    </p>
+
+                </div>
+
+
+                <div class="col-md-4">
+
+                    <h4>Quick Links</h4>
+
+                    <p>
+                        <a href="@Url.Action("Index","Facility")"
+                           style="color:#c8d2e3;">
+                            Facilities
+                        </a>
+                    </p>
+
+                    <p>
+                        <a href="@Url.Action("Index","Equipment")"
+                           style="color:#c8d2e3;">
+                            Equipment
+                        </a>
+                    </p>
+
+                    <p>
+                        <a href="@Url.Action("Create","Inquiry")"
+                           style="color:#c8d2e3;">
+                            Send an Inquiry
+                        </a>
+                    </p>
+
+                </div>
+
+
+                <div class="col-md-4">
+
+                    <h4>Contact SportHub</h4>
+
+                    <p>📍 Sri Lanka</p>
+                    <p>📧 support@sporthub.com</p>
+                    <p>📞 +94 77 123 4567</p>
+
+                </div>
+
+            </div>
+
+
+            <div class="footer-bottom">
+
+                © @DateTime.Now.Year SportHub.
+                All Rights Reserved.
+
+            </div>
+
+        </div>
+
+    </footer>
+
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+
+    @RenderSection("scripts", required: false)
+
+</body>
+</html>

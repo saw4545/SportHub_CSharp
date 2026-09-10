@@ -1,0 +1,132 @@
+﻿@model SportHub_CSharp.Models.BOOKING
+
+@{
+    ViewBag.Title = "Cancel Booking";
+}
+
+<div class="container"
+     style="max-width:650px;margin-top:50px;margin-bottom:50px;">
+
+    <div class="panel panel-danger">
+
+        <div class="panel-heading text-center">
+
+            <h2 style="margin:10px 0;">
+                ⚠️ Cancel Booking
+            </h2>
+
+        </div>
+
+
+        <div class="panel-body">
+
+            <div class="alert alert-warning text-center">
+
+                <strong>
+                    Are you sure you want to cancel this booking?
+                </strong>
+
+            </div>
+
+
+            <table class="table table-bordered">
+
+                <tr>
+                    <th>Booking ID</th>
+
+                    <td>
+                        @Model.BookingID
+                    </td>
+                </tr>
+
+
+                <tr>
+                    <th>Facility</th>
+
+                    <td>
+
+                        @if (Model.FACILITY != null)
+                        {
+                            @Model.FACILITY.Name
+                        }
+                        else
+                        {
+                            <span>N/A</span>
+                        }
+
+                    </td>
+                </tr>
+
+
+                <tr>
+                    <th>Date</th>
+
+                    <td>
+                        @Model.BookingDate.ToString("dd/MM/yyyy")
+                    </td>
+                </tr>
+
+
+                <tr>
+                    <th>Time Slot</th>
+
+                    <td>
+                        @Model.TimeSlot
+                    </td>
+                </tr>
+
+
+                <tr>
+                    <th>Status</th>
+
+                    <td>
+
+                        <span class="label label-success">
+                            @Model.Status
+                        </span>
+
+                    </td>
+                </tr>
+
+            </table>
+
+
+            @using (Html.BeginForm(
+                "CancelConfirmed",
+                "Booking",
+                FormMethod.Post))
+            {
+                @Html.AntiForgeryToken()
+
+                @Html.HiddenFor(
+                    model => model.BookingID)
+
+
+                <div class="text-center">
+
+                    <button type="submit"
+                            class="btn btn-danger btn-lg">
+
+                        Yes, Cancel Booking
+
+                    </button>
+
+
+                    <a href="@Url.Action(
+                        "MyBookings",
+                        "Booking")"
+                       class="btn btn-secondary btn-lg"
+                       style="margin-left:5px;">
+
+                        No, Go Back
+
+                    </a>
+
+                </div>
+            }
+
+        </div>
+
+    </div>
+
+</div>

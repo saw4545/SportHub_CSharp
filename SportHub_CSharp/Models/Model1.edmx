@@ -1,0 +1,581 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="SportHubModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="BOOKING">
+          <Key>
+            <PropertyRef Name="BookingID" />
+          </Key>
+          <Property Name="BookingID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="MemberID" Type="int" Nullable="false" />
+          <Property Name="FacilityID" Type="int" Nullable="false" />
+          <Property Name="BookingDate" Type="date" Nullable="false" />
+          <Property Name="TimeSlot" Type="nvarchar" MaxLength="30" Nullable="false" />
+          <Property Name="Status" Type="nvarchar" MaxLength="20" Nullable="false" />
+          <Property Name="CreatedAt" Type="datetime2" Precision="7" Nullable="false" />
+        </EntityType>
+        <EntityType Name="EQUIPMENT">
+          <Key>
+            <PropertyRef Name="EquipmentID" />
+          </Key>
+          <Property Name="EquipmentID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="Type" Type="nvarchar" MaxLength="50" />
+          <Property Name="QuantityAvailable" Type="int" Nullable="false" />
+          <Property Name="RentalFee" Type="decimal" Precision="10" Scale="2" Nullable="false" />
+        </EntityType>
+        <EntityType Name="FACILITY">
+          <Key>
+            <PropertyRef Name="FacilityID" />
+          </Key>
+          <Property Name="FacilityID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="200" Nullable="false" />
+          <Property Name="Type" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Location" Type="nvarchar" MaxLength="100" />
+          <Property Name="HourlyRate" Type="decimal" Precision="6" Scale="2" />
+          <Property Name="Status" Type="nvarchar" MaxLength="20" Nullable="false" />
+        </EntityType>
+        <EntityType Name="INQUIRY">
+          <Key>
+            <PropertyRef Name="InquiryID" />
+          </Key>
+          <Property Name="InquiryID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="GuestName" Type="nvarchar" MaxLength="200" Nullable="false" />
+          <Property Name="GuestEmail" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="Message" Type="nvarchar" MaxLength="500" Nullable="false" />
+          <Property Name="SentDate" Type="datetime2" Precision="7" Nullable="false" />
+        </EntityType>
+        <EntityType Name="MEMBER">
+          <Key>
+            <PropertyRef Name="MemberID" />
+          </Key>
+          <Property Name="MemberID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="200" Nullable="false" />
+          <Property Name="Email" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="Phone" Type="nvarchar" MaxLength="15" />
+          <Property Name="Address" Type="nvarchar" MaxLength="200" />
+          <Property Name="RegisteredDate" Type="datetime2" Precision="7" Nullable="false" />
+          <Property Name="Password" Type="nvarchar" MaxLength="255" Nullable="false" />
+        </EntityType>
+        <EntityType Name="MEMBER_SPORT_PREFERENCE">
+          <Key>
+            <PropertyRef Name="MemberID" />
+            <PropertyRef Name="SportID" />
+          </Key>
+          <Property Name="MemberID" Type="int" Nullable="false" />
+          <Property Name="SportID" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="RENTAL">
+          <Key>
+            <PropertyRef Name="RentalID" />
+          </Key>
+          <Property Name="RentalID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="MemberID" Type="int" Nullable="false" />
+          <Property Name="EquipmentID" Type="int" Nullable="false" />
+          <Property Name="RentDate" Type="date" Nullable="false" />
+          <Property Name="ReturnDate" Type="date" />
+          <Property Name="Status" Type="nvarchar" MaxLength="20" Nullable="false" />
+        </EntityType>
+        <EntityType Name="REVIEW">
+          <Key>
+            <PropertyRef Name="ReviewID" />
+          </Key>
+          <Property Name="ReviewID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="BookingID" Type="int" Nullable="false" />
+          <Property Name="Rating" Type="int" Nullable="false" />
+          <Property Name="ReviewComment" Type="nvarchar" MaxLength="500" />
+          <Property Name="ReviewDate" Type="datetime2" Precision="7" Nullable="false" />
+        </EntityType>
+        <EntityType Name="SIMPLE_REVIEW">
+          <Key>
+            <PropertyRef Name="ReviewID" />
+          </Key>
+          <Property Name="ReviewID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ReviewerName" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="Rating" Type="int" Nullable="false" />
+          <Property Name="ReviewComment" Type="varchar" MaxLength="1000" Nullable="false" />
+          <Property Name="ReviewDate" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="SPORT">
+          <Key>
+            <PropertyRef Name="SportID" />
+          </Key>
+          <Property Name="SportID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="SportName" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <Association Name="BOOKING_FACILITY_FK">
+          <End Role="FACILITY" Type="Self.FACILITY" Multiplicity="1" />
+          <End Role="BOOKING" Type="Self.BOOKING" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="FACILITY">
+              <PropertyRef Name="FacilityID" />
+            </Principal>
+            <Dependent Role="BOOKING">
+              <PropertyRef Name="FacilityID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="BOOKING_MEMBER_FK">
+          <End Role="MEMBER" Type="Self.MEMBER" Multiplicity="1" />
+          <End Role="BOOKING" Type="Self.BOOKING" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MEMBER">
+              <PropertyRef Name="MemberID" />
+            </Principal>
+            <Dependent Role="BOOKING">
+              <PropertyRef Name="MemberID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="MSP_MEMBER_FK">
+          <End Role="MEMBER" Type="Self.MEMBER" Multiplicity="1" />
+          <End Role="MEMBER_SPORT_PREFERENCE" Type="Self.MEMBER_SPORT_PREFERENCE" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MEMBER">
+              <PropertyRef Name="MemberID" />
+            </Principal>
+            <Dependent Role="MEMBER_SPORT_PREFERENCE">
+              <PropertyRef Name="MemberID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="MSP_SPORT_FK">
+          <End Role="SPORT" Type="Self.SPORT" Multiplicity="1" />
+          <End Role="MEMBER_SPORT_PREFERENCE" Type="Self.MEMBER_SPORT_PREFERENCE" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SPORT">
+              <PropertyRef Name="SportID" />
+            </Principal>
+            <Dependent Role="MEMBER_SPORT_PREFERENCE">
+              <PropertyRef Name="SportID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="RENTAL_EQUIPMENT_FK">
+          <End Role="EQUIPMENT" Type="Self.EQUIPMENT" Multiplicity="1" />
+          <End Role="RENTAL" Type="Self.RENTAL" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="EQUIPMENT">
+              <PropertyRef Name="EquipmentID" />
+            </Principal>
+            <Dependent Role="RENTAL">
+              <PropertyRef Name="EquipmentID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="RENTAL_MEMBER_FK">
+          <End Role="MEMBER" Type="Self.MEMBER" Multiplicity="1" />
+          <End Role="RENTAL" Type="Self.RENTAL" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MEMBER">
+              <PropertyRef Name="MemberID" />
+            </Principal>
+            <Dependent Role="RENTAL">
+              <PropertyRef Name="MemberID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="REVIEW_BOOKING_FK">
+          <End Role="BOOKING" Type="Self.BOOKING" Multiplicity="1" />
+          <End Role="REVIEW" Type="Self.REVIEW" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BOOKING">
+              <PropertyRef Name="BookingID" />
+            </Principal>
+            <Dependent Role="REVIEW">
+              <PropertyRef Name="BookingID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="SportHubModelStoreContainer">
+          <EntitySet Name="BOOKING" EntityType="Self.BOOKING" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="EQUIPMENT" EntityType="Self.EQUIPMENT" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="FACILITY" EntityType="Self.FACILITY" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="INQUIRY" EntityType="Self.INQUIRY" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="MEMBER" EntityType="Self.MEMBER" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="MEMBER_SPORT_PREFERENCE" EntityType="Self.MEMBER_SPORT_PREFERENCE" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="RENTAL" EntityType="Self.RENTAL" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="REVIEW" EntityType="Self.REVIEW" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SIMPLE_REVIEW" EntityType="Self.SIMPLE_REVIEW" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SPORT" EntityType="Self.SPORT" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="BOOKING_FACILITY_FK" Association="Self.BOOKING_FACILITY_FK">
+            <End Role="FACILITY" EntitySet="FACILITY" />
+            <End Role="BOOKING" EntitySet="BOOKING" />
+          </AssociationSet>
+          <AssociationSet Name="BOOKING_MEMBER_FK" Association="Self.BOOKING_MEMBER_FK">
+            <End Role="MEMBER" EntitySet="MEMBER" />
+            <End Role="BOOKING" EntitySet="BOOKING" />
+          </AssociationSet>
+          <AssociationSet Name="MSP_MEMBER_FK" Association="Self.MSP_MEMBER_FK">
+            <End Role="MEMBER" EntitySet="MEMBER" />
+            <End Role="MEMBER_SPORT_PREFERENCE" EntitySet="MEMBER_SPORT_PREFERENCE" />
+          </AssociationSet>
+          <AssociationSet Name="MSP_SPORT_FK" Association="Self.MSP_SPORT_FK">
+            <End Role="SPORT" EntitySet="SPORT" />
+            <End Role="MEMBER_SPORT_PREFERENCE" EntitySet="MEMBER_SPORT_PREFERENCE" />
+          </AssociationSet>
+          <AssociationSet Name="RENTAL_EQUIPMENT_FK" Association="Self.RENTAL_EQUIPMENT_FK">
+            <End Role="EQUIPMENT" EntitySet="EQUIPMENT" />
+            <End Role="RENTAL" EntitySet="RENTAL" />
+          </AssociationSet>
+          <AssociationSet Name="RENTAL_MEMBER_FK" Association="Self.RENTAL_MEMBER_FK">
+            <End Role="MEMBER" EntitySet="MEMBER" />
+            <End Role="RENTAL" EntitySet="RENTAL" />
+          </AssociationSet>
+          <AssociationSet Name="REVIEW_BOOKING_FK" Association="Self.REVIEW_BOOKING_FK">
+            <End Role="BOOKING" EntitySet="BOOKING" />
+            <End Role="REVIEW" EntitySet="REVIEW" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="SportHubModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="BOOKING">
+          <Key>
+            <PropertyRef Name="BookingID" />
+          </Key>
+          <Property Name="BookingID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="MemberID" Type="Int32" Nullable="false" />
+          <Property Name="FacilityID" Type="Int32" Nullable="false" />
+          <Property Name="BookingDate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="TimeSlot" Type="String" MaxLength="30" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Status" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="CreatedAt" Type="DateTime" Nullable="false" Precision="7" />
+          <NavigationProperty Name="FACILITY" Relationship="Self.BOOKING_FACILITY_FK" FromRole="BOOKING" ToRole="FACILITY" />
+          <NavigationProperty Name="MEMBER" Relationship="Self.BOOKING_MEMBER_FK" FromRole="BOOKING" ToRole="MEMBER" />
+          <NavigationProperty Name="REVIEWs" Relationship="Self.REVIEW_BOOKING_FK" FromRole="BOOKING" ToRole="REVIEW" />
+        </EntityType>
+        <EntityType Name="EQUIPMENT">
+          <Key>
+            <PropertyRef Name="EquipmentID" />
+          </Key>
+          <Property Name="EquipmentID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Type" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="QuantityAvailable" Type="Int32" Nullable="false" />
+          <Property Name="RentalFee" Type="Decimal" Precision="10" Scale="2" Nullable="false" />
+          <NavigationProperty Name="RENTALs" Relationship="Self.RENTAL_EQUIPMENT_FK" FromRole="EQUIPMENT" ToRole="RENTAL" />
+        </EntityType>
+        <EntityType Name="FACILITY">
+          <Key>
+            <PropertyRef Name="FacilityID" />
+          </Key>
+          <Property Name="FacilityID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="200" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Type" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Location" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="HourlyRate" Type="Decimal" Precision="6" Scale="2" />
+          <Property Name="Status" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="BOOKINGs" Relationship="Self.BOOKING_FACILITY_FK" FromRole="FACILITY" ToRole="BOOKING" />
+        </EntityType>
+        <EntityType Name="INQUIRY">
+          <Key>
+            <PropertyRef Name="InquiryID" />
+          </Key>
+          <Property Name="InquiryID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="GuestName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="GuestEmail" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Message" Type="String" MaxLength="500" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="SentDate" Type="DateTime" Nullable="false" Precision="7" />
+        </EntityType>
+        <EntityType Name="MEMBER">
+          <Key>
+            <PropertyRef Name="MemberID" />
+          </Key>
+          <Property Name="MemberID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="200" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Email" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Phone" Type="String" MaxLength="15" FixedLength="false" Unicode="true" />
+          <Property Name="Address" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="RegisteredDate" Type="DateTime" Nullable="false" Precision="7" />
+          <Property Name="Password" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="BOOKINGs" Relationship="Self.BOOKING_MEMBER_FK" FromRole="MEMBER" ToRole="BOOKING" />
+          <NavigationProperty Name="RENTALs" Relationship="Self.RENTAL_MEMBER_FK" FromRole="MEMBER" ToRole="RENTAL" />
+          <NavigationProperty Name="SPORTs" Relationship="Self.MEMBER_SPORT_PREFERENCE" FromRole="MEMBER" ToRole="SPORT" />
+        </EntityType>
+        <EntityType Name="RENTAL">
+          <Key>
+            <PropertyRef Name="RentalID" />
+          </Key>
+          <Property Name="RentalID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="MemberID" Type="Int32" Nullable="false" />
+          <Property Name="EquipmentID" Type="Int32" Nullable="false" />
+          <Property Name="RentDate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="ReturnDate" Type="DateTime" Precision="0" />
+          <Property Name="Status" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="EQUIPMENT" Relationship="Self.RENTAL_EQUIPMENT_FK" FromRole="RENTAL" ToRole="EQUIPMENT" />
+          <NavigationProperty Name="MEMBER" Relationship="Self.RENTAL_MEMBER_FK" FromRole="RENTAL" ToRole="MEMBER" />
+        </EntityType>
+        <EntityType Name="REVIEW">
+          <Key>
+            <PropertyRef Name="ReviewID" />
+          </Key>
+          <Property Name="ReviewID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="BookingID" Type="Int32" Nullable="false" />
+          <Property Name="Rating" Type="Int32" Nullable="false" />
+          <Property Name="ReviewComment" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="ReviewDate" Type="DateTime" Nullable="false" Precision="7" />
+          <NavigationProperty Name="BOOKING" Relationship="Self.REVIEW_BOOKING_FK" FromRole="REVIEW" ToRole="BOOKING" />
+        </EntityType>
+        <EntityType Name="SIMPLE_REVIEW">
+          <Key>
+            <PropertyRef Name="ReviewID" />
+          </Key>
+          <Property Name="ReviewID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ReviewerName" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Rating" Type="Int32" Nullable="false" />
+          <Property Name="ReviewComment" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="ReviewDate" Type="DateTime" Nullable="false" Precision="3" />
+        </EntityType>
+        <EntityType Name="SPORT">
+          <Key>
+            <PropertyRef Name="SportID" />
+          </Key>
+          <Property Name="SportID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="SportName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="MEMBERs" Relationship="Self.MEMBER_SPORT_PREFERENCE" FromRole="SPORT" ToRole="MEMBER" />
+        </EntityType>
+        <Association Name="BOOKING_FACILITY_FK">
+          <End Role="FACILITY" Type="Self.FACILITY" Multiplicity="1" />
+          <End Role="BOOKING" Type="Self.BOOKING" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="FACILITY">
+              <PropertyRef Name="FacilityID" />
+            </Principal>
+            <Dependent Role="BOOKING">
+              <PropertyRef Name="FacilityID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="BOOKING_MEMBER_FK">
+          <End Role="MEMBER" Type="Self.MEMBER" Multiplicity="1" />
+          <End Role="BOOKING" Type="Self.BOOKING" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MEMBER">
+              <PropertyRef Name="MemberID" />
+            </Principal>
+            <Dependent Role="BOOKING">
+              <PropertyRef Name="MemberID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="REVIEW_BOOKING_FK">
+          <End Role="BOOKING" Type="Self.BOOKING" Multiplicity="1" />
+          <End Role="REVIEW" Type="Self.REVIEW" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BOOKING">
+              <PropertyRef Name="BookingID" />
+            </Principal>
+            <Dependent Role="REVIEW">
+              <PropertyRef Name="BookingID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="RENTAL_EQUIPMENT_FK">
+          <End Role="EQUIPMENT" Type="Self.EQUIPMENT" Multiplicity="1" />
+          <End Role="RENTAL" Type="Self.RENTAL" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="EQUIPMENT">
+              <PropertyRef Name="EquipmentID" />
+            </Principal>
+            <Dependent Role="RENTAL">
+              <PropertyRef Name="EquipmentID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="RENTAL_MEMBER_FK">
+          <End Role="MEMBER" Type="Self.MEMBER" Multiplicity="1" />
+          <End Role="RENTAL" Type="Self.RENTAL" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MEMBER">
+              <PropertyRef Name="MemberID" />
+            </Principal>
+            <Dependent Role="RENTAL">
+              <PropertyRef Name="MemberID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="MEMBER_SPORT_PREFERENCE">
+          <End Role="MEMBER" Type="Self.MEMBER" Multiplicity="*" />
+          <End Role="SPORT" Type="Self.SPORT" Multiplicity="*" />
+        </Association>
+        <EntityContainer Name="SportHubEntities1" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="BOOKINGs" EntityType="Self.BOOKING" />
+          <EntitySet Name="EQUIPMENTs" EntityType="Self.EQUIPMENT" />
+          <EntitySet Name="FACILITies" EntityType="Self.FACILITY" />
+          <EntitySet Name="INQUIRies" EntityType="Self.INQUIRY" />
+          <EntitySet Name="MEMBERs" EntityType="Self.MEMBER" />
+          <EntitySet Name="RENTALs" EntityType="Self.RENTAL" />
+          <EntitySet Name="REVIEWs" EntityType="Self.REVIEW" />
+          <EntitySet Name="SIMPLE_REVIEW" EntityType="Self.SIMPLE_REVIEW" />
+          <EntitySet Name="SPORTs" EntityType="Self.SPORT" />
+          <AssociationSet Name="BOOKING_FACILITY_FK" Association="Self.BOOKING_FACILITY_FK">
+            <End Role="FACILITY" EntitySet="FACILITies" />
+            <End Role="BOOKING" EntitySet="BOOKINGs" />
+          </AssociationSet>
+          <AssociationSet Name="BOOKING_MEMBER_FK" Association="Self.BOOKING_MEMBER_FK">
+            <End Role="MEMBER" EntitySet="MEMBERs" />
+            <End Role="BOOKING" EntitySet="BOOKINGs" />
+          </AssociationSet>
+          <AssociationSet Name="REVIEW_BOOKING_FK" Association="Self.REVIEW_BOOKING_FK">
+            <End Role="BOOKING" EntitySet="BOOKINGs" />
+            <End Role="REVIEW" EntitySet="REVIEWs" />
+          </AssociationSet>
+          <AssociationSet Name="RENTAL_EQUIPMENT_FK" Association="Self.RENTAL_EQUIPMENT_FK">
+            <End Role="EQUIPMENT" EntitySet="EQUIPMENTs" />
+            <End Role="RENTAL" EntitySet="RENTALs" />
+          </AssociationSet>
+          <AssociationSet Name="RENTAL_MEMBER_FK" Association="Self.RENTAL_MEMBER_FK">
+            <End Role="MEMBER" EntitySet="MEMBERs" />
+            <End Role="RENTAL" EntitySet="RENTALs" />
+          </AssociationSet>
+          <AssociationSet Name="MEMBER_SPORT_PREFERENCE" Association="Self.MEMBER_SPORT_PREFERENCE">
+            <End Role="MEMBER" EntitySet="MEMBERs" />
+            <End Role="SPORT" EntitySet="SPORTs" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="SportHubModelStoreContainer" CdmEntityContainer="SportHubEntities1">
+          <EntitySetMapping Name="BOOKINGs">
+            <EntityTypeMapping TypeName="SportHubModel.BOOKING">
+              <MappingFragment StoreEntitySet="BOOKING">
+                <ScalarProperty Name="BookingID" ColumnName="BookingID" />
+                <ScalarProperty Name="MemberID" ColumnName="MemberID" />
+                <ScalarProperty Name="FacilityID" ColumnName="FacilityID" />
+                <ScalarProperty Name="BookingDate" ColumnName="BookingDate" />
+                <ScalarProperty Name="TimeSlot" ColumnName="TimeSlot" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="CreatedAt" ColumnName="CreatedAt" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="EQUIPMENTs">
+            <EntityTypeMapping TypeName="SportHubModel.EQUIPMENT">
+              <MappingFragment StoreEntitySet="EQUIPMENT">
+                <ScalarProperty Name="EquipmentID" ColumnName="EquipmentID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Type" ColumnName="Type" />
+                <ScalarProperty Name="QuantityAvailable" ColumnName="QuantityAvailable" />
+                <ScalarProperty Name="RentalFee" ColumnName="RentalFee" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="FACILITies">
+            <EntityTypeMapping TypeName="SportHubModel.FACILITY">
+              <MappingFragment StoreEntitySet="FACILITY">
+                <ScalarProperty Name="FacilityID" ColumnName="FacilityID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Type" ColumnName="Type" />
+                <ScalarProperty Name="Location" ColumnName="Location" />
+                <ScalarProperty Name="HourlyRate" ColumnName="HourlyRate" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="INQUIRies">
+            <EntityTypeMapping TypeName="SportHubModel.INQUIRY">
+              <MappingFragment StoreEntitySet="INQUIRY">
+                <ScalarProperty Name="InquiryID" ColumnName="InquiryID" />
+                <ScalarProperty Name="GuestName" ColumnName="GuestName" />
+                <ScalarProperty Name="GuestEmail" ColumnName="GuestEmail" />
+                <ScalarProperty Name="Message" ColumnName="Message" />
+                <ScalarProperty Name="SentDate" ColumnName="SentDate" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MEMBERs">
+            <EntityTypeMapping TypeName="SportHubModel.MEMBER">
+              <MappingFragment StoreEntitySet="MEMBER">
+                <ScalarProperty Name="MemberID" ColumnName="MemberID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Phone" ColumnName="Phone" />
+                <ScalarProperty Name="Address" ColumnName="Address" />
+                <ScalarProperty Name="RegisteredDate" ColumnName="RegisteredDate" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="RENTALs">
+            <EntityTypeMapping TypeName="SportHubModel.RENTAL">
+              <MappingFragment StoreEntitySet="RENTAL">
+                <ScalarProperty Name="RentalID" ColumnName="RentalID" />
+                <ScalarProperty Name="MemberID" ColumnName="MemberID" />
+                <ScalarProperty Name="EquipmentID" ColumnName="EquipmentID" />
+                <ScalarProperty Name="RentDate" ColumnName="RentDate" />
+                <ScalarProperty Name="ReturnDate" ColumnName="ReturnDate" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="REVIEWs">
+            <EntityTypeMapping TypeName="SportHubModel.REVIEW">
+              <MappingFragment StoreEntitySet="REVIEW">
+                <ScalarProperty Name="ReviewID" ColumnName="ReviewID" />
+                <ScalarProperty Name="BookingID" ColumnName="BookingID" />
+                <ScalarProperty Name="Rating" ColumnName="Rating" />
+                <ScalarProperty Name="ReviewComment" ColumnName="ReviewComment" />
+                <ScalarProperty Name="ReviewDate" ColumnName="ReviewDate" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SIMPLE_REVIEW">
+            <EntityTypeMapping TypeName="SportHubModel.SIMPLE_REVIEW">
+              <MappingFragment StoreEntitySet="SIMPLE_REVIEW">
+                <ScalarProperty Name="ReviewID" ColumnName="ReviewID" />
+                <ScalarProperty Name="ReviewerName" ColumnName="ReviewerName" />
+                <ScalarProperty Name="Rating" ColumnName="Rating" />
+                <ScalarProperty Name="ReviewComment" ColumnName="ReviewComment" />
+                <ScalarProperty Name="ReviewDate" ColumnName="ReviewDate" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SPORTs">
+            <EntityTypeMapping TypeName="SportHubModel.SPORT">
+              <MappingFragment StoreEntitySet="SPORT">
+                <ScalarProperty Name="SportID" ColumnName="SportID" />
+                <ScalarProperty Name="SportName" ColumnName="SportName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <AssociationSetMapping Name="MEMBER_SPORT_PREFERENCE" TypeName="SportHubModel.MEMBER_SPORT_PREFERENCE" StoreEntitySet="MEMBER_SPORT_PREFERENCE">
+            <EndProperty Name="MEMBER">
+              <ScalarProperty Name="MemberID" ColumnName="MemberID" />
+            </EndProperty>
+            <EndProperty Name="SPORT">
+              <ScalarProperty Name="SportID" ColumnName="SportID" />
+            </EndProperty>
+          </AssociationSetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

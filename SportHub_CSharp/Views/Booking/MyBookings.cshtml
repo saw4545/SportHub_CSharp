@@ -1,0 +1,279 @@
+﻿@model IEnumerable<SportHub_CSharp.Models.BOOKING>
+
+@{
+    ViewBag.Title = "My Bookings";
+}
+
+<div class="container"
+     style="margin-top:30px;margin-bottom:50px;">
+
+    <!-- HEADER -->
+
+    <div style="
+        background:#0d6efd;
+        color:white;
+        padding:20px;
+        border-radius:8px;
+        margin-bottom:20px;">
+
+        <h2 style="margin:0;">
+            📅 My Bookings
+        </h2>
+
+        <p style="margin:8px 0 0 0;">
+            View and manage your sports facility bookings.
+        </p>
+
+    </div>
+
+
+    <!-- SUCCESS -->
+
+    @if (TempData["SuccessMessage"] != null)
+    {
+        <div class="alert alert-success">
+
+            ✅ @TempData["SuccessMessage"]
+
+        </div>
+    }
+
+
+    <!-- ERROR -->
+
+    @if (TempData["ErrorMessage"] != null)
+    {
+        <div class="alert alert-danger">
+
+            ⚠️ @TempData["ErrorMessage"]
+
+        </div>
+    }
+
+
+    <!-- BUTTON -->
+
+    <div style="margin-bottom:20px;">
+
+        <a href="@Url.Action("Index", "Facility")"
+           class="btn btn-primary">
+
+            🏟️ Book Another Facility
+
+        </a>
+
+        <a href="@Url.Action("Index", "Home")"
+           class="btn btn-secondary"
+           style="margin-left:5px;">
+
+            🏠 Home
+
+        </a>
+
+    </div>
+
+
+    <!-- BOOKINGS -->
+
+    @if (Model != null && Model.Any())
+    {
+        <div class="panel panel-default">
+
+            <div class="panel-heading"
+                 style="font-size:18px;font-weight:bold;">
+
+                My Booking History
+
+            </div>
+
+
+            <div class="panel-body">
+
+                <div class="table-responsive">
+
+                    <table class="table table-bordered table-striped">
+
+                        <thead style="
+                            background:#212529;
+                            color:white;">
+
+                            <tr>
+
+                                <th>ID</th>
+
+                                <th>Facility</th>
+
+                                <th>Type</th>
+
+                                <th>Location</th>
+
+                                <th>Date</th>
+
+                                <th>Time</th>
+
+                                <th>Status</th>
+
+                                <th>Actions</th>
+
+                            </tr>
+
+                        </thead>
+
+
+                        <tbody>
+
+                            @foreach (var booking in Model)
+                            {
+                                <tr>
+
+                                    <td>
+                                        @booking.BookingID
+                                    </td>
+
+
+                                    <td>
+
+                                        @if (booking.FACILITY != null)
+                                        {
+                                            <strong>
+                                                @booking.FACILITY.Name
+                                            </strong>
+                                        }
+                                        else
+                                        {
+                                            <span>N/A</span>
+                                        }
+
+                                    </td>
+
+
+                                    <td>
+
+                                        @if (booking.FACILITY != null)
+                                        {
+                                            @booking.FACILITY.Type
+                                        }
+                                        else
+                                        {
+                                            <span>-</span>
+                                        }
+
+                                    </td>
+
+
+                                    <td>
+
+                                        @if (booking.FACILITY != null)
+                                        {
+                                            @booking.FACILITY.Location
+                                        }
+                                        else
+                                        {
+                                            <span>-</span>
+                                        }
+
+                                    </td>
+
+
+                                    <td>
+                                        @booking.BookingDate.ToString("dd/MM/yyyy")
+                                    </td>
+
+
+                                    <td>
+                                        @booking.TimeSlot
+                                    </td>
+
+
+                                    <td>
+
+                                        @if (booking.Status == "Confirmed")
+                                        {
+                                            <span class="label label-success">
+                                                Confirmed
+                                            </span>
+                                        }
+                                        else if (booking.Status == "Cancelled")
+                                        {
+                                            <span class="label label-danger">
+                                                Cancelled
+                                            </span>
+                                        }
+                                        else
+                                        {
+                                            <span class="label label-default">
+                                                @booking.Status
+                                            </span>
+                                        }
+
+                                    </td>
+
+
+                                    <td>
+
+                                        @if (booking.Status == "Confirmed")
+                                        {
+                                            <a href="@Url.Action(
+                                                "Cancel",
+                                                "Booking",
+                                                new { id = booking.BookingID })"
+                                               class="btn btn-danger btn-sm">
+
+                                                Cancel
+
+                                            </a>
+
+                                            <a href="@Url.Action(
+                                                "Create",
+                                                "Review",
+                                                new { BookingID = booking.BookingID })"
+                                               class="btn btn-warning btn-sm"
+                                               style="margin-left:4px;">
+
+                                                ⭐ Review
+
+                                            </a>
+                                        }
+                                        else
+                                        {
+                                            <span class="text-muted">
+                                                No Action
+                                            </span>
+                                        }
+
+                                    </td>
+
+                                </tr>
+                            }
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            </div>
+
+        </div>
+    }
+    else
+    {
+        <div class="alert alert-info text-center">
+
+            <h4>No Bookings Yet</h4>
+
+            <p>
+                You have not booked any sports facilities yet.
+            </p>
+
+            <a href="@Url.Action("Index", "Facility")"
+               class="btn btn-primary">
+
+                🏟️ Browse Facilities
+
+            </a>
+
+        </div>
+    }
+
+</div>

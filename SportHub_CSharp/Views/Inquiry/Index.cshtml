@@ -1,0 +1,191 @@
+﻿@model IEnumerable<SportHub_CSharp.Models.INQUIRY>
+
+@{
+    ViewBag.Title = "Inquiry Management";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container" style="margin-top:35px;margin-bottom:50px;">
+
+    <div class="card shadow">
+
+        <div class="card-header bg-primary text-white">
+
+            <h2 style="margin:10px 0;">
+                📩 Inquiry Management
+            </h2>
+
+        </div>
+
+        <div class="card-body">
+
+            @if (TempData["SuccessMessage"] != null)
+            {
+                <div class="alert alert-success">
+                    @TempData["SuccessMessage"]
+                </div>
+            }
+
+            @if (TempData["ErrorMessage"] != null)
+            {
+                <div class="alert alert-danger">
+                    @TempData["ErrorMessage"]
+                </div>
+            }
+
+            <div style="margin-bottom:20px;">
+
+                <a href="@Url.Action("Create", "Inquiry")"
+                   class="btn btn-primary">
+
+                    ➕ New Inquiry
+
+                </a>
+
+                <a href="@Url.Action("Index", "Home")"
+                   class="btn btn-secondary"
+                   style="margin-left:5px;">
+
+                    🏠 Home
+
+                </a>
+
+            </div>
+
+
+            @if (Model != null && Model.Any())
+            {
+                <div class="table-responsive">
+
+                    <table class="table table-bordered table-hover">
+
+                        <thead style="background:#212529;color:white;">
+
+                            <tr>
+
+                                <th>ID</th>
+                                <th>Guest Name</th>
+                                <th>Email</th>
+                                <th>Message</th>
+                                <th>Sent Date</th>
+                                <th style="width:220px;">Actions</th>
+
+                            </tr>
+
+                        </thead>
+
+                        <tbody>
+
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+
+                                    <td>
+                                        @item.InquiryID
+                                    </td>
+
+                                    <td>
+                                        <strong>
+                                            @item.GuestName
+                                        </strong>
+                                    </td>
+
+                                    <td>
+                                        @item.GuestEmail
+                                    </td>
+
+                                    <td>
+
+                                        @if (!string.IsNullOrEmpty(item.Message))
+                                        {
+                                            if (item.Message.Length > 60)
+                                            {
+                                                @item.Message.Substring(0, 60)
+                                                <span>...</span>
+                                            }
+                                            else
+                                            {
+                                                @item.Message
+                                            }
+                                        }
+                                        else
+                                        {
+                                            <span class="text-muted">
+                                                No message
+                                            </span>
+                                        }
+
+                                    </td>
+
+                                    <td>
+                                        @item.SentDate.ToString("dd/MM/yyyy HH:mm")
+                                    </td>
+
+                                    <td>
+
+                                        <a href="@Url.Action(
+                                            "Details",
+                                            "Inquiry",
+                                            new { id = item.InquiryID })"
+                                           class="btn btn-info btn-sm">
+
+                                            Details
+
+                                        </a>
+
+                                        <a href="@Url.Action(
+                                            "Edit",
+                                            "Inquiry",
+                                            new { id = item.InquiryID })"
+                                           class="btn btn-warning btn-sm">
+
+                                            Edit
+
+                                        </a>
+
+                                        <a href="@Url.Action(
+                                            "Delete",
+                                            "Inquiry",
+                                            new { id = item.InquiryID })"
+                                           class="btn btn-danger btn-sm">
+
+                                            Delete
+
+                                        </a>
+
+                                    </td>
+
+                                </tr>
+                            }
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+            }
+            else
+            {
+                <div class="alert alert-info text-center">
+
+                    <h4>No inquiries found</h4>
+
+                    <p>
+                        There are currently no inquiries.
+                    </p>
+
+                    <a href="@Url.Action("Create", "Inquiry")"
+                       class="btn btn-primary">
+
+                        Send First Inquiry
+
+                    </a>
+
+                </div>
+            }
+
+        </div>
+
+    </div>
+
+</div>

@@ -1,0 +1,82 @@
+﻿@model SportHub_CSharp.Models.EQUIPMENT
+
+@{
+    ViewBag.Title = "Delete Equipment";
+}
+
+<h2>Delete Equipment</h2>
+
+<h3>Are you sure you want to delete this equipment?</h3>
+
+<div>
+
+    <hr />
+
+    <dl class="dl-horizontal">
+
+        <dt>
+            Equipment ID
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.EquipmentID)
+        </dd>
+
+        <dt>
+            Name
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+
+        <dt>
+            Type
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Type)
+        </dd>
+
+        <dt>
+            Quantity Available
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.QuantityAvailable)
+        </dd>
+
+        <dt>
+            Rental Fee
+        </dt>
+
+        <dd>
+            @(Model.RentalFee.HasValue
+                ? Model.RentalFee.Value.ToString("N2")
+                : "0.00")
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm("Delete", "Equipment", FormMethod.Post))
+    {
+        @Html.AntiForgeryToken()
+
+        @Html.HiddenFor(model => model.EquipmentID)
+
+        <input type="submit"
+               value="Delete"
+               class="btn btn-danger" />
+
+        @Html.Raw(" ")
+
+        @Html.ActionLink(
+            "Cancel",
+            "Index",
+            "Equipment",
+            null,
+            new { @class = "btn btn-secondary" }
+        )
+    }
+
+</div>

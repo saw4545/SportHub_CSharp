@@ -1,0 +1,210 @@
+﻿@model IEnumerable<SportHub_CSharp.Models.EQUIPMENT>
+
+@{
+    ViewBag.Title = "Sports Equipment";
+}
+
+<div class="container" style="margin-top:30px;">
+
+    <!-- Page Header -->
+    <div style="
+        background:#0d6efd;
+        color:white;
+        padding:20px;
+        border-radius:6px;
+        margin-bottom:25px;">
+
+        <h2 style="margin:0;">
+            Sports Equipment
+        </h2>
+
+        <p style="margin:8px 0 0 0;">
+            Browse available sports equipment and rent what you need.
+        </p>
+
+    </div>
+
+    <!-- Success Message -->
+    @if (TempData["SuccessMessage"] != null)
+    {
+        <div class="alert alert-success">
+            @TempData["SuccessMessage"]
+        </div>
+    }
+
+    <!-- Error Message -->
+    @if (TempData["ErrorMessage"] != null)
+    {
+        <div class="alert alert-danger">
+            @TempData["ErrorMessage"]
+        </div>
+    }
+
+    <!-- Navigation -->
+    <div style="margin-bottom:20px;">
+
+        @if (Session["MemberID"] != null)
+        {
+            <a href="@Url.Action("Index", "Rental")"
+               class="btn btn-info">
+                My Rentals
+            </a>
+        }
+
+        <a href="@Url.Action("Index", "Home")"
+           class="btn btn-default"
+           style="margin-left:5px;">
+            Back to Home
+        </a>
+
+    </div>
+
+    <!-- Equipment Table -->
+    <div class="panel panel-default">
+
+        <div class="panel-heading"
+             style="font-size:18px; font-weight:bold;">
+            Available Sports Equipment
+        </div>
+
+        <div class="panel-body">
+
+            @if (Model != null && Model.Any())
+            {
+                <div class="table-responsive">
+
+                    <table class="table table-bordered table-striped">
+
+                        <thead style="
+                            background:#212529;
+                            color:white;">
+
+                            <tr>
+                                <th>Equipment ID</th>
+                                <th>Name</th>
+                                <th>Type</th>
+                                <th>Quantity Available</th>
+                                <th>Rental Fee</th>
+                                <th>Action</th>
+                            </tr>
+
+                        </thead>
+
+                        <tbody>
+
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+
+                                    <!-- Equipment ID -->
+                                    <td>
+                                        @item.EquipmentID
+                                    </td>
+
+                                    <!-- Name -->
+                                    <td>
+                                        <strong>
+                                            @item.Name
+                                        </strong>
+                                    </td>
+
+                                    <!-- Type -->
+                                    <td>
+                                        @item.Type
+                                    </td>
+
+                                    <!-- Quantity -->
+                                    <td>
+
+                                        @if (item.QuantityAvailable > 0)
+                                        {
+                                            <span class="label label-success">
+                                                @item.QuantityAvailable Available
+                                            </span>
+                                        }
+                                        else
+                                        {
+                                            <span class="label label-danger">
+                                                Out of Stock
+                                            </span>
+                                        }
+
+                                    </td>
+
+                                    <!-- Rental Fee -->
+                                    <td>
+                                        @if (item.RentalFee.HasValue)
+                                        {
+                                            <strong>
+                                                Rs. @item.RentalFee.Value.ToString("N2")
+                                            </strong>
+                                        }
+                                        else
+                                        {
+                                            <span>
+                                                Not specified
+                                            </span>
+                                        }
+                                    </td>
+
+                                    <!-- Action -->
+                                    <td>
+
+                                        @if (item.QuantityAvailable > 0)
+                                        {
+                                            if (Session["MemberID"] != null)
+                                            {
+                                                <a href="@Url.Action(
+                                                    "Create",
+                                                    "Rental",
+                                                    new { id = item.EquipmentID })"
+                                                   class="btn btn-success btn-sm">
+                                                    Rent
+                                                </a>
+                                            }
+                                            else
+                                            {
+                                                <a href="@Url.Action(
+                                                    "Login",
+                                                    "Member")"
+                                                   class="btn btn-primary btn-sm">
+                                                    Login to Rent
+                                                </a>
+                                            }
+                                        }
+                                        else
+                                        {
+                                            <span class="label label-danger">
+                                                Unavailable
+                                            </span>
+                                        }
+
+                                    </td>
+
+                                </tr>
+                            }
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+            }
+            else
+            {
+                <div class="alert alert-info">
+
+                    <h4>No Equipment Available</h4>
+
+                    <p>
+                        There is currently no sports equipment available.
+                    </p>
+
+                </div>
+            }
+
+        </div>
+
+    </div>
+
+</div>
